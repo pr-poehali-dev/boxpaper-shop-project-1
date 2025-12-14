@@ -23,13 +23,13 @@ interface CartItem extends Product {
 }
 
 const products: Product[] = [
-  { id: 1, name: 'Картхолдер MagSafe', category: 'Аксессуары', price: 1290, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg', badge: 'Хит' },
-  { id: 2, name: 'Чехол силиконовый', category: 'Чехлы', price: 890, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg' },
-  { id: 3, name: 'Чехол с MagSafe', category: 'Чехлы', price: 1490, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg', badge: 'Новинка' },
-  { id: 4, name: 'Чехол с наклейками', category: 'Чехлы', price: 990, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg' },
-  { id: 5, name: 'Стилус Air', category: 'Стилусы', price: 2990, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg' },
-  { id: 6, name: 'Стилус Pro', category: 'Стилусы', price: 4990, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg', badge: 'Pro' },
-  { id: 7, name: 'Стилус Ultra', category: 'Стилусы', price: 6990, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg', badge: 'Premium' },
+  { id: 1, name: 'Картхолдер MagSafe', category: 'Аксессуары', price: 350, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg', badge: 'Хит' },
+  { id: 2, name: 'Чехол силиконовый', category: 'Чехлы', price: 500, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg' },
+  { id: 3, name: 'Чехол с MagSafe', category: 'Чехлы', price: 500, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg', badge: 'Новинка' },
+  { id: 4, name: 'Чехол с наклейками', category: 'Чехлы', price: 500, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg' },
+  { id: 5, name: 'Стилус Air', category: 'Стилусы', price: 250, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg' },
+  { id: 6, name: 'Стилус Pro', category: 'Стилусы', price: 250, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg', badge: 'Pro' },
+  { id: 7, name: 'Стилус Ultra', category: 'Стилусы', price: 250, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg', badge: 'Premium' },
 ];
 
 interface IndexProps {
