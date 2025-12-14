@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -31,11 +32,16 @@ const products: Product[] = [
   { id: 7, name: 'Стилус Ultra', category: 'Стилусы', price: 6990, image: 'https://cdn.poehali.dev/projects/86abe993-0edc-4039-924d-a364b1d0b464/files/ab6b936f-0a8d-4dda-ad1a-253fb7f024ef.jpg', badge: 'Premium' },
 ];
 
-export default function Index() {
+interface IndexProps {
+  cart: CartItem[];
+  setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
+}
+
+export default function Index({ cart, setCart }: IndexProps) {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState('');
-  const [cart, setCart] = useState<CartItem[]>([]);
   const [activeSection, setActiveSection] = useState<'profile' | 'shop'>('shop');
 
   const addToCart = (product: Product) => {
@@ -147,7 +153,10 @@ export default function Index() {
                         <span>Итого:</span>
                         <span>{getTotalPrice()} ₽</span>
                       </div>
-                      <Button className="w-full bg-gradient-primary hover:opacity-90 transition-opacity">
+                      <Button 
+                        className="w-full bg-gradient-primary hover:opacity-90 transition-opacity"
+                        onClick={() => navigate('/checkout')}
+                      >
                         Оформить заказ
                       </Button>
                     </>

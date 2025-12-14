@@ -1,0 +1,71 @@
+{
+  "tests": [
+    {
+      "name": "Create payment with SBP",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "amount": 5000,
+        "paymentMethod": "sbp",
+        "customerInfo": {
+          "fullName": "Иван Иванов",
+          "email": "ivan@example.com",
+          "phone": "+79991234567",
+          "address": "ул. Ленина, 10",
+          "city": "Москва",
+          "postalCode": "123456"
+        },
+        "items": [
+          {
+            "id": 1,
+            "name": "Картхолдер MagSafe",
+            "price": 1290,
+            "quantity": 2,
+            "image": "https://example.com/image.jpg"
+          }
+        ]
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "orderId": "string",
+        "amount": 5000,
+        "paymentMethod": "sbp",
+        "status": "pending"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Create payment with T-Bank",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "amount": 3500,
+        "paymentMethod": "tbank",
+        "customerInfo": {
+          "fullName": "Петр Петров",
+          "email": "petr@example.com",
+          "phone": "+79997654321",
+          "address": "пр. Мира, 5",
+          "city": "Санкт-Петербург",
+          "postalCode": "190000"
+        },
+        "items": [
+          {
+            "id": 2,
+            "name": "Чехол силиконовый",
+            "price": 890,
+            "quantity": 1,
+            "image": "https://example.com/case.jpg"
+          }
+        ]
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "paymentMethod": "tbank"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
