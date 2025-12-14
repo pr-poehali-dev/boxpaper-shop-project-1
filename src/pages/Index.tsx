@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
+import { createAccount, login, getCurrentUser, logout, getAuthToken } from '@/lib/auth';
 
 interface Product {
   id: number;
@@ -42,7 +43,19 @@ export default function Index({ cart, setCart }: IndexProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [userToken, setUserToken] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<'profile' | 'shop'>('shop');
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (user) {
+      setIsAuthenticated(true);
+      setUserName(user.name);
+      setUserToken(user.token);
+    }
+  }, []);
 
   const addToCart = (product: Product) => {
     setCart(prev => {
@@ -227,21 +240,54 @@ export default function Index({ cart, setCart }: IndexProps) {
                       </div>
                       <div>
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="your@email.com" />
+                        <Input 
+                          id="email" 
+                          type="email" 
+                          placeholder="your@email.com"
+                          value={userEmail}
+                          onChange={(e) => setUserEmail(e.target.value)}
+                        />
                       </div>
                       <div>
                         <Label htmlFor="password">Пароль</Label>
-                        <Input id="password" type="password" placeholder="••••••••" />
+                        <Input 
+                          id="password" 
+                          type="password" 
+                          placeholder="••••••••"
+                          value={userPassword}
+                          onChange={(e) => setUserPassword(e.target.value)}
+                        />
                       </div>
                     </div>
 
                     <Button
                       className="w-full bg-gradient-primary hover:opacity-90"
-                      onClick={() => setIsAuthenticated(true)}
+                      onClick={() => {
+                        if (userName && userEmail && userPassword) {
+                          const user = createAccount(userName, userEmail, userPassword);
+                          setIsAuthenticated(true);
+                          setUserToken(user.token);
+                        }
+                      }}
+                      disabled={!userName || !userEmail || !userPassword}
                     >
                       Создать аккаунт
                     </Button>
-                    <Button variant="outline" className="w-full">
+                    <Button 
+                      variant="outline" 
+                      className="w-full"
+                      onClick={() => {
+                        if (userEmail && userPassword) {
+                          const user = login(userEmail, userPassword);
+                          if (user) {
+                            setIsAuthenticated(true);
+                            setUserName(user.name);
+                            setUserToken(user.token);
+                          }
+                        }
+                      }}
+                      disabled={!userEmail || !userPassword}
+                    >
                       Войти
                     </Button>
                   </div>
@@ -254,8 +300,18 @@ export default function Index({ cart, setCart }: IndexProps) {
                         </span>
                       </div>
                       <h3 className="text-lg font-semibold">{userName || 'Пользователь'}</h3>
-                      <p className="text-sm text-muted-foreground">user@boxpaper.com</p>
+                      <p className="text-sm text-muted-foreground">{getCurrentUser()?.email || 'user@boxpaper.com'}</p>
                     </div>
+
+                    {userToken && (
+                      <div className="bg-gradient-primary/10 rounded-lg p-3 border border-primary/20">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Icon name="Key" size={14} className="text-primary" />
+                          <p className="text-xs font-semibold text-primary">Ваш токен BoxPaper:</p>
+                        </div>
+                        <p className="text-xs font-mono bg-white/50 rounded px-2 py-1 break-all">{userToken}</p>
+                      </div>
+                    )}
 
                     <div className="space-y-2">
                       <Button 
@@ -283,8 +339,12 @@ export default function Index({ cart, setCart }: IndexProps) {
                       variant="outline"
                       className="w-full text-destructive"
                       onClick={() => {
+                        logout();
                         setIsAuthenticated(false);
                         setUserName('');
+                        setUserEmail('');
+                        setUserPassword('');
+                        setUserToken(null);
                       }}
                     >
                       <Icon name="LogOut" size={18} className="mr-2" />
