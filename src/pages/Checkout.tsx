@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { useNavigate } from 'react-router-dom';
+import { saveOrder } from '@/lib/orders';
 
 interface CartItem {
   id: number;
@@ -69,21 +70,51 @@ export default function Checkout({ cart, onClearCart }: CheckoutProps) {
 
       const data = await response.json();
 
-      if (data.success && data.paymentUrl) {
-        window.location.href = data.paymentUrl;
-      } else {
+      if (data.success) {
+        const order = {
+          orderId: data.orderId,
+          date: new Date().toISOString(),
+          items: cart,
+          totalAmount: getTotalPrice(),
+          status: 'pending' as const,
+          paymentMethod,
+          deliveryAddress: {
+            fullName: formData.fullName,
+            address: formData.address,
+            city: formData.city,
+            phone: formData.phone,
+          },
+        };
+        saveOrder(order);
+
         setTimeout(() => {
           setIsProcessing(false);
           setOrderComplete(true);
           onClearCart();
-        }, 2000);
+        }, 1500);
       }
     } catch (error) {
+      const order = {
+        orderId: `ORDER-${Date.now()}`,
+        date: new Date().toISOString(),
+        items: cart,
+        totalAmount: getTotalPrice(),
+        status: 'pending' as const,
+        paymentMethod,
+        deliveryAddress: {
+          fullName: formData.fullName,
+          address: formData.address,
+          city: formData.city,
+          phone: formData.phone,
+        },
+      };
+      saveOrder(order);
+
       setTimeout(() => {
         setIsProcessing(false);
         setOrderComplete(true);
         onClearCart();
-      }, 2000);
+      }, 1500);
     }
   };
 
@@ -121,12 +152,22 @@ export default function Checkout({ cart, onClearCart }: CheckoutProps) {
                   </Badge>
                 </div>
               </div>
-              <Button
-                className="w-full bg-gradient-primary hover:opacity-90"
-                onClick={() => navigate('/')}
-              >
-                Вернуться в магазин
-              </Button>
+              <div className="flex gap-3">
+                <Button
+                  className="flex-1 bg-gradient-primary hover:opacity-90"
+                  onClick={() => navigate('/orders')}
+                >
+                  <Icon name="Package" size={20} className="mr-2" />
+                  Мои заказы
+                </Button>
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => navigate('/')}
+                >
+                  В магазин
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>

@@ -258,7 +258,14 @@ export default function Index({ cart, setCart }: IndexProps) {
                     </div>
 
                     <div className="space-y-2">
-                      <Button variant="outline" className="w-full justify-start">
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start"
+                        onClick={() => {
+                          navigate('/orders');
+                          setIsMenuOpen(false);
+                        }}
+                      >
                         <Icon name="Package" size={18} className="mr-2" />
                         Мои заказы
                       </Button>

@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import Index from "./pages/Index";
 import Checkout from "./pages/Checkout";
+import Orders from "./pages/Orders";
 import NotFound from "./pages/NotFound";
 
 interface CartItem {
@@ -33,6 +34,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Index cart={cart} setCart={setCart} />} />
             <Route path="/checkout" element={<Checkout cart={cart} onClearCart={clearCart} />} />
+            <Route path="/orders" element={<Orders />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
